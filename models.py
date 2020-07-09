@@ -7,7 +7,7 @@ from mozaik.storage.datastore import PickledDataStore
 from mozaik.tools.mozaik_parametrized import MozaikParametrized
 import random
 
-class ModelV1Spont(sciunit.Model, StatsSheetsFiringRate, SheetsMembranePotential, SheetsExcitatorySynapticConductance, SheetsInhibitorySynapticConductance, SheetsCorrelationCoefficient, SheetsCVISI):
+class ModelV1Spont(sciunit.Model, StatsSheetsFiringRate, SheetFiringRate, SheetsMembranePotential, SheetsExcitatorySynapticConductance, SheetsInhibitorySynapticConductance, SheetsCorrelationCoefficient, SheetsCVISI):
 	"""A model of spontaneous activity of V1."""
 
 	def __init__(self, path, name="Spontaneous activity of V1"):

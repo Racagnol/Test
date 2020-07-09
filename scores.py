@@ -111,11 +111,8 @@ class ShapiroTestScore(Score):
 		logPredictions=[]
 		for p in prediction:
 			if p > 0:
-				logPrediction=numpy.log(p)
-			#If the prediction is equal or inferior to 0, replace the value by log(0.000000001)
-			else:
-				logPrediction=numpy.log(0.000000001)
-			logPredictions.append(logPrediction)		
+				logPrediction=numpy.log10(p)
+				logPredictions.append(logPrediction)		
 		value, p_val = st.shapiro(logPredictions)
 	
         return ShapiroTestScore(value,related_data={"p_value": p_val})

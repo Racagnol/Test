@@ -4,33 +4,6 @@ from tests import *
 
 newModel=ModelV1(sys.argv[1])
 
-
-newTest=AverageFiringRate(2,"V1_Exc_L4")
-score= newTest.judge(newModel, deep_error=True)
-score.summarize()
-
-newTest=AverageFiringRate(2,"V1_Inh_L4")
-score= newTest.judge(newModel, deep_error=True)
-score.summarize()
-
-newTest=AverageFiringRate(newModel.stats_sheets_firing_rate("V1_Exc_L4"),"V1_Inh_L4")
-score= newTest.judge(newModel, deep_error=True)
-score.summarize()
-
-newTest=AverageFiringRate(2,"V1_Exc_L2/3")
-score= newTest.judge(newModel, deep_error=True)
-score.summarize()
-
-newTest=AverageFiringRate(2,"V1_Inh_L2/3")
-score= newTest.judge(newModel, deep_error=True)
-score.summarize()
-
-newTest=AverageFiringRate(newModel.stats_sheets_firing_rate("V1_Exc_L2/3"),"V1_Inh_L2/3")
-score= newTest.judge(newModel, deep_error=True)
-score.summarize()
-"""
-
-
 newTest=RURA({"mean": 2.5, "std": 8.5, "n": 58},["V1_Exc_L4","V1_Exc_L2/3"],100)
 score= newTest.judge(newModel, deep_error=True)
 score.summarize()
@@ -146,4 +119,3 @@ score.summarize()
 newTest=InhibitorySynapticConductance({"mean": 0.0049, "std": 0.0036, "n": 22},["V1_Exc_L4", "V1_Inh_L4", "V1_Exc_L2/3", "V1_Inh_L2/3"])
 score= newTest.judge(newModel, deep_error=True)
 score.summarize()
-"""
