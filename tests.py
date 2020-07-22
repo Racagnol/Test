@@ -134,8 +134,6 @@ class DistributionAverageFiringRate(Test):
 	if s==0:
 		s=1.0
 	
-	print(m)
-	print(np.exp(-(np.log10(10)**2)/(2*s*s))/(s*np.sqrt(2*np.pi)))
 	plt.plot(np.logspace(-2,2,100),np.exp(-((np.log10(np.logspace(-2,2,100))-m)**2)/(2*s*s))/(s*np.sqrt(2*np.pi)),linewidth=4,color="#666666")
         plt.plot(np.power(10,bin_centers),h,'ko',mec=None,mew=3)
         plt.xlim(10**-2,10**2)
@@ -295,8 +293,26 @@ class RestingPotential(Test):
     #----------------------------------------------------------------------
 
     def compute_score(self, observation, prediction):
-        observation["std"] = observation["std"] * (float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance	
+        if isinstance(observation, dict):
+            observation["std"] = observation["std"] * (float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance	
 	score = scores.StudentsTestScore.compute(observation, prediction)
+
+        labels=["Observation","Prediction"]
+
+        width=0.8
+        fig, ax = plt.subplots()
+        ax.bar(0, prediction["mean"], width)
+        if isinstance(observation, int) or isinstance(observation, float):
+                ax.bar(1, observation, width)
+        else:
+                ax.bar(1, observation["mean"], width)
+
+        # Add some text for labels, title and custom x-axis tick labels, etc.
+        ax.set_ylabel('Membrane Potential (mV)')
+        ax.set_xticks(np.arange(len(labels)))
+        ax.set_xticklabels(labels)
+        plt.savefig(self.__class__.__name__+".png")
+        plt.clf()
         return score
 
 
@@ -342,8 +358,26 @@ class ExcitatorySynapticConductance(Test):
     #----------------------------------------------------------------------
 
     def compute_score(self, observation, prediction):
-        observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
+        if isinstance(observation, dict):
+            observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
 	score = scores.StudentsTestScore.compute(observation, prediction)
+
+        labels=["Observation","Prediction"]
+
+        width=0.8
+        fig, ax = plt.subplots()
+        ax.bar(0, prediction["mean"]*1000, width)
+        if isinstance(observation, int) or isinstance(observation, float):
+                ax.bar(1, observation*1000, width)
+        else:
+                ax.bar(1, observation["mean"]*1000, width)
+
+        # Add some text for labels, title and custom x-axis tick labels, etc.
+        ax.set_ylabel('Excitatory Synaptic Conductances (nS)')
+        ax.set_xticks(np.arange(len(labels)))
+        ax.set_xticklabels(labels)
+        plt.savefig(self.__class__.__name__+".png")
+        plt.clf()
         return score
 
 class InhibitorySynapticConductance(Test):
@@ -387,22 +421,24 @@ class InhibitorySynapticConductance(Test):
     #----------------------------------------------------------------------
 
     def compute_score(self, observation, prediction):
-        observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
+        if isinstance(observation, dict):
+		observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
         score = scores.StudentsTestScore.compute(observation, prediction)
+	
 	labels=["Observation","Prediction"]
 	
-	x = np.arange(len(labels))  # the label locations
-	width=0.2
+	width=0.8
 	fig, ax = plt.subplots()
-	ax.bar(1, prediction["mean"], width)
+	ax.bar(0, prediction["mean"]*1000, width)
 	if isinstance(observation, int) or isinstance(observation, float):
-		ax.bar(2, observation, width)
+		ax.bar(1, observation*1000, width)
 	else:
-		ax.bar(2, observation["mean"], width)
+		ax.bar(1, observation["mean"]*1000, width)
 		
 	# Add some text for labels, title and custom x-axis tick labels, etc.
-	ax.set_ylabel('Inhibitory Synaptic Conductances')
-	ax.set_xticklabels(np.arange(len(labels)))
+	ax.set_ylabel('Inhibitory Synaptic Conductances (nS)')
+	ax.set_xticks(np.arange(len(labels)))
+	ax.set_xticklabels(labels)
         plt.savefig(self.__class__.__name__+".png")
 	plt.clf()
         return score
@@ -466,7 +502,8 @@ class HWHH(SinusoidalGratingsTest):
     #----------------------------------------------------------------------
 
     def compute_score(self, observation, prediction):
-        observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
+        if isinstance(observation, dict):
+            observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
         score = scores.StudentsTestScore.compute(observation, prediction)
 
         return score
@@ -575,7 +612,8 @@ class RURA(SinusoidalGratingsTest):
     #----------------------------------------------------------------------
 
     def compute_score(self, observation, prediction):
-        observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
+        if isinstance(observation, dict):
+            observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
         score = scores.StudentsTestScore.compute(observation, prediction)
         return score
 
@@ -683,7 +721,8 @@ class ModulationRatio(SinusoidalGratingsTest):
     #----------------------------------------------------------------------
 
     def compute_score(self, observation, prediction):
-        observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
+        if isinstance(observation, dict):
+            observation["std"] = observation["std"]*(float(observation["n"])/(observation["n"]-1))**0.5 #Bessel's correction for unbiased variance
         score = scores.StudentsTestScore.compute(observation, prediction)
         return score
 
