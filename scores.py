@@ -11,7 +11,6 @@ class StudentsTestScore(Score):
     Contains also in the related_data dictionnary:
     the p value, which evaluates the significativity of this difference
     the statistical power of the test
-    the degrees of freedom
     """
 
     _description = ("The t statistic between the prediction and the observation")
